@@ -4,12 +4,11 @@ import {ErrorBoundary} from "./ErrorBoundary";
 import {app} from "../app";
 
 interface Config {
-    path: string;
     accessCondition?: boolean;
     unauthorizedRedirectTo?: string;
     notFound?: boolean;
 }
-function withHOC(WrappedComponent: React.ComponentType, {path, accessCondition, unauthorizedRedirectTo, notFound}: Required<Config>) {
+function withHOC(WrappedComponent: React.ComponentType, {path, accessCondition, unauthorizedRedirectTo, notFound}: Required<Config> & {path: string}) {
     return function NewComponent(props: any) {
         const navigate = useNavigate();
         const location = useLocation();
