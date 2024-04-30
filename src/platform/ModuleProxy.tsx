@@ -3,7 +3,7 @@ import {app} from "../app";
 import {executeAction, type ErrorListener} from "../module";
 import {Module, type ModuleLifecycleListener} from "./Module";
 import type {Location} from "history";
-import type {RouteComponentProps} from "react-router";
+// import type {RouteComponentProps} from "react-router";
 import {setNavigationPrevented} from "../storeActions";
 
 let startupModuleName: string | null = null;
@@ -53,7 +53,8 @@ export class ModuleProxy<M extends Module<any, any>> {
 
             override async componentDidUpdate(prevProps: Readonly<P>) {
                 const prevLocation = (prevProps as any).location;
-                const props = this.props as RouteComponentProps & P;
+                // const props = this.props as RouteComponentProps & P;
+                const props = this.props as any;
                 const currentLocation = props.location;
                 const currentRouteParams = props.match ? props.match.params : null;
 
@@ -160,7 +161,8 @@ export class ModuleProxy<M extends Module<any, any>> {
             };
 
             private async lifecycle() {
-                const props = this.props as RouteComponentProps & P;
+                // const props = this.props as RouteComponentProps & P;
+                const props = this.props as any;
 
                 const enterActionName = `${moduleName}/@@ENTER`;
                 const startTime = Date.now();
