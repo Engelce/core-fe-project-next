@@ -1,7 +1,7 @@
 import React from "react";
 import {setIdleState} from "../storeActions";
 import type {IdleSlice, State} from "../sliceStores";
-import {useSelector} from "../platform/bootstrap";
+import {useSelector} from "../hooks/action";
 
 type IdleState = IdleSlice["idle"];
 
@@ -46,7 +46,6 @@ export function IdleDetector(props: Props) {
         if (timeout > 0) {
             const idleTimer = createTimer(timeout, newIdleState => {
                 if (newIdleState !== stateRef.current) {
-                    // dispatch(idleStateActions(newIdleState));
                     setIdleState(newIdleState);
                 }
             });
