@@ -1,5 +1,5 @@
 import React from "react";
-import {Navigate, Route as ReactRouterDOMRoute, type PathRouteProps, type RouteProps, useLocation, useMatch, useNavigate} from "react-router-dom";
+import {Navigate, Route as ReactRouterDOMRoute, type PathRouteProps, type RouteProps, useLocation, useMatch, useNavigate, useNavigationType} from "react-router-dom";
 import {ErrorBoundary} from "./ErrorBoundary";
 import {app} from "../app";
 
@@ -11,10 +11,11 @@ interface Config {
 function withHOC(WrappedComponent: React.ComponentType, {path, accessCondition, unauthorizedRedirectTo, notFound}: Required<Config> & {path: string}) {
     return function NewComponent(props: any) {
         const navigate = useNavigate();
+        const action = useNavigationType();
         const location = useLocation();
         const match = useMatch(path);
         if (accessCondition) {
-            return notFound ? withNotFoundWarning(WrappedComponent) : <WrappedComponent {...props} location={location} match={match} navigate={navigate} />;
+            return notFound ? withNotFoundWarning(WrappedComponent) : <WrappedComponent {...props} location={location} match={match} navigate={navigate} action={action} />;
         } else {
             return <Navigate to={unauthorizedRedirectTo} />;
         }

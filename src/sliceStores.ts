@@ -1,4 +1,6 @@
 import {type History, type Location, type Action} from "history";
+// import {useMatch, type Location} from "react-router-dom";
+// import {type NavigationType as Action} from "react-router-dom";
 import {create, type StateCreator, type StoreMutatorIdentifier} from "zustand";
 import {immer} from "zustand/middleware/immer";
 import {devtools, subscribeWithSelector} from "zustand/middleware";
@@ -40,12 +42,12 @@ export interface SetStateSlice extends Slice {
 export type State = RouterSlice & LoadingSlice & IdleSlice & SetStateSlice & NavigationSlice;
 
 export const createRouterSlice: (history: History) => ImmerStateCreator<RouterSlice> = (history: History) => set => {
-    history.listen((location, action) => {
-        set(draft => {
-            draft.router.action = action;
-            draft.router.location = location;
-        });
-    });
+    // history.listen((location, action) => {
+    //     set(draft => {
+    //         draft.router.action = action;
+    //         draft.router.location = location;
+    //     });
+    // });
 
     return {
         router: {

@@ -2,11 +2,14 @@ import React from "react";
 import {app} from "../app";
 import {executeAction, type ErrorListener} from "../module";
 import {Module, type ModuleLifecycleListener} from "./Module";
-import type {Location} from "history";
-// import type {RouteComponentProps} from "react-router";
-import {setNavigationPrevented} from "../storeActions";
+import {type Location} from "history";
+import {useMatch} from "react-router-dom";
+import type {RouterSlice} from "../sliceStores";
+import {setNavigationPrevented, setRouterState} from "../storeActions";
 
 let startupModuleName: string | null = null;
+
+type RouteComponentProps = RouterSlice["router"] & {match: ReturnType<typeof useMatch>};
 
 type FunctionKeys<T> = {
     [K in keyof T]: T[K] extends Function ? K : never;
@@ -48,16 +51,19 @@ export class ModuleProxy<M extends Module<any, any>> {
             }
 
             override componentDidMount() {
+                const props = this.props as RouteComponentProps & P;
+                setRouterState(props);
+
                 this.lifecycle.call(this);
             }
 
             override async componentDidUpdate(prevProps: Readonly<P>) {
                 const prevLocation = (prevProps as any).location;
-                // const props = this.props as RouteComponentProps & P;
-                const props = this.props as any;
+                const props = this.props as RouteComponentProps & P;
                 const currentLocation = props.location;
                 const currentRouteParams = props.match ? props.match.params : null;
 
+                setRouterState(props);
                 /**
                  * Only trigger onLocationMatched if current component is connected to <Route>, and location literally changed.
                  *

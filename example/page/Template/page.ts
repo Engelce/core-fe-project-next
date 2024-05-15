@@ -31,13 +31,13 @@ export class MockData {
 class TemplateModule extends Module<RootState, "Template"> {
     override async onLocationMatched(routeParam: object, location: ModuleLocation<object>) {
         console.info("onLocationMatched", routeParam, location);
-        console.info(app.history);
+        console.info(app.getState("router"));
 
         const list = await MockData.todoList();
     }
 
     override async onEnter(entryComponentProps: any) {
-        console.info("onEnter", entryComponentProps);
+        // console.info("onEnter", entryComponentProps);
 
         await this.getTodoList();
     }

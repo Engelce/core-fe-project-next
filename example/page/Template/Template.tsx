@@ -10,8 +10,8 @@ export default function Example() {
     const loading = useLoadingStatus("abc");
     const {list, time} = useModuleState("Template");
 
-    const onItemClick = (item: string) => {
-        navigate(`/Template/${item}`);
+    const onItemClick = (item: string, index: number) => {
+        navigate(`/Template/${item}?index=${index}`);
     };
 
     const onRefetch = () => {
@@ -25,8 +25,8 @@ export default function Example() {
             <OperationPage />
             {loading ? <button onClick={actions.cancelGetTodoList}>cancel loading</button> : <button onClick={onRefetch}>refetch</button>}
             <div>{loading ? "loading" : null}</div>
-            {list.map(item => (
-                <div key={item} onClick={() => onItemClick(item)} style={{cursor: "pointer"}}>
+            {list.map((item, index) => (
+                <div key={item} onClick={() => onItemClick(item, index)} style={{cursor: "pointer"}}>
                     {item}
                 </div>
             ))}
